@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/homeScreen">
+
+    <fragment
+        android:id="@+id/homeScreen"
+        android:name="com.pdstudios.timemanager.screens.home_screen.HomeScreenFragment"
+        android:label="HomeScreen"
+        tools:layout="@layout/fragment_home_screen">
+        <action
+            android:id="@+id/action_homeScreen_to_toDoListFragment"
+            app:destination="@id/toDoListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/toDoListFragment"
+        android:name="com.pdstudios.timemanager.screens.to_do_list.ToDoListFragment"
+        android:label="ToDoListFragment"
+        tools:layout="@layout/fragment_to_do_list">
+        <action
+            android:id="@+id/action_toDoListFragment_to_homeScreen"
+            app:destination="@id/homeScreen" />
+        <action
+            android:id="@+id/action_toDoListFragment_to_TDLAddTaskFragment"
+            app:destination="@id/TDLAddTaskFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/TDLAddTaskFragment"
+        android:name="com.pdstudios.timemanager.screens.to_do_list.to_do_list_add_task.TDLAddTaskFragment"
+        android:label="TDLAddTaskFragment"
+        tools:layout="@layout/fragment_t_d_l_add_task">
+        <action
+            android:id="@+id/action_TDLAddTaskFragment_to_toDoListFragment"
+            app:destination="@id/toDoListFragment" />
+    </fragment>
+</navigation>
