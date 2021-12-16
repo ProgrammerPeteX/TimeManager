@@ -31,8 +31,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
-                    android:padding="8dp"
-                    android:text="test" />
+                    android:hint="@string/long_press_to_set_name"
+                    android:padding="8dp" />
 
                 <EditText
                     android:id="@+id/editText_toDoListItem"

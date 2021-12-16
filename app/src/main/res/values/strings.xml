@@ -9,4 +9,5 @@
     <string name="save">SAVE</string>
     <string name="add">ADD</string>
     <string name="_plus">+</string>
+    <string name="long_press_to_set_name">LONG PRESS TO SET NAME</string>
 </resources>

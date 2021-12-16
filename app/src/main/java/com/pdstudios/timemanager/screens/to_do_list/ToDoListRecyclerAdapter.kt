@@ -10,15 +10,17 @@ import android.view.inputmethod.InputMethodManager
 import androidx.core.view.get
 import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.RecyclerView
+import com.pdstudios.timemanager.database.to_do_list.ToDoListForm
 import com.pdstudios.timemanager.databinding.ToDoListCardBinding
+import java.text.SimpleDateFormat
+import java.util.*
 
 class ToDoListRecyclerAdapter(
-    private val toDoList: LiveData<MutableList<String>>,
-    private val callback: () -> Unit,
+    private val toDoList: LiveData<List<ToDoListForm>>,
+    private val updateTaskCallback: (ToDoListForm) -> Unit,
 ) : RecyclerView.Adapter<ToDoListRecyclerAdapter.ViewHolder>() {
 
     private lateinit var binding: ToDoListCardBinding
-    private val adapterToDoList = listOf("A", "B", "C", "D")
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -28,12 +30,12 @@ class ToDoListRecyclerAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = toDoList.value!![position]
-        holder.bind(item, position)
+        val task = toDoList.value!![position]
+        holder.bind(task)
     }
 
     override fun getItemCount(): Int {
-        return toDoList.value!!.size
+        return toDoList.value?.size ?: 0
     }
 
     inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
@@ -43,24 +45,24 @@ class ToDoListRecyclerAdapter(
         val checkBox = binding.checkBoxToDoListItem
         val date = binding.textViewToDoListItemDate
 
-        fun bind(item: String, position: Int) {
-            textView.text = item
+        fun bind(task: ToDoListForm) {
+            textView.text = task.name
+            date.text = getDateTime(task.dateTimeCreated)
+            checkBox.isChecked = task.isChecked
 
             val inputManager: InputMethodManager =
                 itemView.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
 
-
-            Log.i("Test", "textView was set")
             itemView.setOnClickListener {
-                toDoList.value!![position] = "Plus!"
-                callback()
+//                task.name = "Plus!"
+//                updateTaskCallback(task)
             }
 
             itemView.setOnLongClickListener {
                 viewSwitcher.showNext()
+                editText.setText(textView.text)
                 val isEditText = (viewSwitcher[1] == editText)
                 if (isEditText) {
-
                     viewSwitcher.requestFocus()
                 }
                 inputManager.showSoftInput(editText, 0)
@@ -72,7 +74,8 @@ class ToDoListRecyclerAdapter(
                 val isEnterPressedDown = (keyCode ==  KeyEvent.KEYCODE_ENTER)
                         && (event.action == KeyEvent.ACTION_DOWN)
                 if (isEnterPressedDown) {
-                    toDoList.value!![position] = editText.text.toString()
+                    task.name = editText.text.toString()
+                    updateTaskCallback(task)
                     textView.text = editText.text.toString()
                     viewSwitcher.showNext()
                     inputManager.hideSoftInputFromWindow(editText.applicationWindowToken, 0)
@@ -80,8 +83,23 @@ class ToDoListRecyclerAdapter(
                 }
                 finish
             }
+//
+//            checkBox.setOnCheckedChangeListener { _, isChecked ->
+//                task.isChecked = isChecked
+//                updateTaskCallback(task)
+//                Log.i("Test", "isChecked = $isChecked")
+//            }
+            checkBox.setOnClickListener {
+                task.isChecked = checkBox.isChecked
+                updateTaskCallback(task)
+            }
+        }
 
-
+        private fun getDateTime(millis: Long): String {
+            val calendar = Calendar.getInstance()
+            calendar.timeInMillis = millis
+            val formatter = SimpleDateFormat("dd.MM.yyyy 'at' hh:mm:ss", Locale.getDefault())
+            return formatter.format(calendar.time)
         }
     }
 }

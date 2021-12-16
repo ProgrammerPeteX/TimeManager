@@ -1,19 +1,23 @@
 package com.pdstudios.timemanager.screens.to_do_list
 
-import android.service.autofill.Validators.not
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.pdstudios.timemanager.database.to_do_list.ToDoListDao
+import com.pdstudios.timemanager.database.to_do_list.ToDoListForm
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.util.*
 
-class ToDoListViewModel: ViewModel() {
+class ToDoListViewModel(
+    private val toDoListDao: ToDoListDao
+) : ViewModel() {
 
     //OTHER VARS
-    private val _toDoList = MutableLiveData<MutableList<String>>()
-    val toDoList: MutableLiveData<MutableList<String>>
-        get() = _toDoList
-
-    var notifyListChange = MutableLiveData<Boolean>()
+    val toDoList = toDoListDao.getAll()
 
     private var n = 0
 
@@ -30,19 +34,40 @@ class ToDoListViewModel: ViewModel() {
     init {
         _isNavigateToHomeScreen.value = null
         _isNavigateToTDLAddTask.value = null
-        _toDoList.value =  mutableListOf()
-        notifyListChange.value = false
+
     }
 
     //OTHER FUNS
+
+    //DATABASE
     fun addTask() {
-        toDoList.value!!.add("test ${n++}")
-        Log.i("Test", toDoList.value!![n-1])
-        notifyListChange()
+        viewModelScope.launch {
+            val form = ToDoListForm()
+            insertTask(form)
+        }
     }
 
-    fun notifyListChange() {
-        notifyListChange.value?.let{notifyListChange.value = !it}
+    private suspend fun insertTask(form: ToDoListForm) {
+        withContext(Dispatchers.IO) {
+            toDoListDao.insert(form)
+            Log.i("Test", "listSize = ${toDoList.value?.size ?: "null"}")
+        }
+    }
+
+    fun deleteFromToDoList(id: Long) {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                toDoListDao.delete(id)
+            }
+        }
+    }
+
+    fun updateTask(form: ToDoListForm) {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                toDoListDao.update(form)
+            }
+        }
     }
 
     //NAVIGATION FUNS
@@ -53,4 +78,6 @@ class ToDoListViewModel: ViewModel() {
     fun navigateToTDLAddTask() {
         _isNavigateToTDLAddTask. value = true
     }
+
+
 }
