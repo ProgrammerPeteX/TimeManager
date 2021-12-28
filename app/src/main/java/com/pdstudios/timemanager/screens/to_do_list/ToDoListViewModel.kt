@@ -23,17 +23,17 @@ class ToDoListViewModel(
 
     //NAVIGATION VARS
     private val _isNavigateToHomeScreen = MutableLiveData<Boolean?>()
-
     val isNavigateToHomeScreen: LiveData<Boolean?>
         get() = _isNavigateToHomeScreen
-    private val _isNavigateToTDLAddTask = MutableLiveData<Boolean?>()
 
-    val isNavigateToTDLAddTask: LiveData<Boolean?>
-        get() = _isNavigateToTDLAddTask
+    private val _isCreateNewTask = MutableLiveData<Boolean>()
+    val isCreateNewTask: LiveData<Boolean>
+        get() = _isCreateNewTask
+
 
     init {
         _isNavigateToHomeScreen.value = null
-        _isNavigateToTDLAddTask.value = null
+        _isCreateNewTask.value = null
 
     }
 
@@ -44,6 +44,7 @@ class ToDoListViewModel(
         viewModelScope.launch {
             val form = ToDoListForm()
             insertTask(form)
+            _isCreateNewTask.value = true
         }
     }
 
@@ -74,10 +75,5 @@ class ToDoListViewModel(
     fun navigateToHomeScreen() {
         _isNavigateToHomeScreen.value = true
     }
-
-    fun navigateToTDLAddTask() {
-        _isNavigateToTDLAddTask. value = true
-    }
-
 
 }

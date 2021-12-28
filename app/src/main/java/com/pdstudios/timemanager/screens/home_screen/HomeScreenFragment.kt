@@ -32,7 +32,15 @@ class HomeScreenFragment : Fragment() {
         //NAVIGATION
         viewModel.isNavigateToToDoList.observe(viewLifecycleOwner) { navigate ->
             navigate?.let {
-                this.findNavController().navigate(HomeScreenFragmentDirections.actionHomeScreenToToDoListFragment())
+                this.findNavController()
+                    .navigate(HomeScreenFragmentDirections.actionHomeScreenToToDoListFragment())
+            }
+        }
+
+        viewModel.isNavigateToTimeTable.observe(viewLifecycleOwner) { navigate ->
+            navigate?.let {
+                this.findNavController()
+                    .navigate(HomeScreenFragmentDirections.actionHomeScreenToTimeTableFragment())
             }
         }
 

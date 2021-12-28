@@ -1,10 +1,12 @@
 package com.pdstudios.timemanager.screens.to_do_list
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
@@ -27,10 +29,15 @@ class ToDoListFragment : Fragment() {
     private lateinit var layoutManager: RecyclerView.LayoutManager
     private lateinit var adapter: RecyclerView.Adapter<ToDoListRecyclerAdapter.ViewHolder>
 
+    private lateinit var inputManager: InputMethodManager
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        //VARS
+
+
         //BINDING
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_to_do_list, container, false)
 
@@ -79,15 +86,18 @@ class ToDoListFragment : Fragment() {
         //NAVIGATION
         viewModel.isNavigateToHomeScreen.observe(viewLifecycleOwner) { navigate ->
             navigate?.let {
-                this.findNavController().navigate(ToDoListFragmentDirections.actionToDoListFragmentToHomeScreen())
+                this.findNavController()
+                    .navigate(ToDoListFragmentDirections.actionToDoListFragmentToHomeScreen())
             }
         }
-        viewModel.isNavigateToTDLAddTask.observe(viewLifecycleOwner) { navigate ->
-            navigate?.let {
-                this.findNavController().navigate(ToDoListFragmentDirections
-                    .actionToDoListFragmentToTDLAddTaskFragment())
+
+        //OTHER OBSERVERS
+        viewModel.isCreateNewTask.observe(viewLifecycleOwner) {isCreateNewTask ->
+            isCreateNewTask?.let {
+
             }
         }
+
         return binding.root
     }
 }

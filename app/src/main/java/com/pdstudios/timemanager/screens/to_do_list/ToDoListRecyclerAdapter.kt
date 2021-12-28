@@ -83,12 +83,7 @@ class ToDoListRecyclerAdapter(
                 }
                 finish
             }
-//
-//            checkBox.setOnCheckedChangeListener { _, isChecked ->
-//                task.isChecked = isChecked
-//                updateTaskCallback(task)
-//                Log.i("Test", "isChecked = $isChecked")
-//            }
+
             checkBox.setOnClickListener {
                 task.isChecked = checkBox.isChecked
                 updateTaskCallback(task)

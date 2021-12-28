@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_homeScreen_to_toDoListFragment"
             app:destination="@id/toDoListFragment" />
+        <action
+            android:id="@+id/action_homeScreen_to_timeTableFragment"
+            app:destination="@id/timeTableFragment" />
     </fragment>
     <fragment
         android:id="@+id/toDoListFragment"
@@ -22,17 +25,14 @@
         <action
             android:id="@+id/action_toDoListFragment_to_homeScreen"
             app:destination="@id/homeScreen" />
-        <action
-            android:id="@+id/action_toDoListFragment_to_TDLAddTaskFragment"
-            app:destination="@id/TDLAddTaskFragment" />
     </fragment>
     <fragment
-        android:id="@+id/TDLAddTaskFragment"
-        android:name="com.pdstudios.timemanager.screens.to_do_list.to_do_list_add_task.TDLAddTaskFragment"
-        android:label="TDLAddTaskFragment"
-        tools:layout="@layout/fragment_t_d_l_add_task">
+        android:id="@+id/timeTableFragment"
+        android:name="com.pdstudios.timemanager.screens.time_table.TimeTableFragment"
+        android:label="TimeTableFragment"
+        tools:layout="@layout/fragment_time_table">
         <action
-            android:id="@+id/action_TDLAddTaskFragment_to_toDoListFragment"
-            app:destination="@id/toDoListFragment" />
+            android:id="@+id/action_timeTableFragment_to_homeScreen"
+            app:destination="@id/homeScreen" />
     </fragment>
 </navigation>

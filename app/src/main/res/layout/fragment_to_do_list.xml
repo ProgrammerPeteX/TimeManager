@@ -19,7 +19,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:orientation="vertical"
-            app:layout_constraintBottom_toTopOf="@+id/button_homeScreen"
+            app:layout_constraintBottom_toTopOf="@+id/button_toDoListToHomeScreen"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
@@ -32,7 +32,7 @@
         </LinearLayout>
 
         <Button
-            android:id="@+id/button_homeScreen"
+            android:id="@+id/button_toDoListToHomeScreen"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="@{()->toDoListViewModel.navigateToHomeScreen()}"
@@ -52,6 +52,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/button_homeScreen" />
+            app:layout_constraintStart_toEndOf="@+id/button_toDoListToHomeScreen" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
